@@ -10,6 +10,7 @@ const Cart = () => {
     const getCart = useStore((state)=>state.getCart)
     const cart = useStore((state)=>state.cart)
     const  removeCartItem = useStore((state)=>state.removeCartItem)
+    const clearCart = useStore((state)=>state.clearCart)
     useEffect(()=>{
         getCart()
     },[])
@@ -30,6 +31,17 @@ const Cart = () => {
         }
     }
 
+    const removeAllCartItem = async()=>{
+        try{
+            const response = await CartApi.clearCart()
+            if(response.status === 200){
+                clearCart()
+                showToast('Cart Cleared', 'success')
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
   return (
     <div className='w-[60%] mx-auto space-y-4'>
@@ -71,7 +83,9 @@ const Cart = () => {
                 <span className='text-gray-500'>Total: <span className='font-bold'>{total}</span></span>
                 <div className='flex items-center space-x-4'>
                     <button className='bg-blue-500 text-white px-4 py-2 rounded-md'>Checkout</button>
-                    <button className='bg-red-500 text-white px-4 py-2 rounded-md'>Clear Cart</button>
+                    <button className='bg-red-500 text-white px-4 py-2 rounded-md'
+                    onClick={()=>removeAllCartItem()}
+                    >Clear Cart</button>
                 </div>
             </div>
         </div>

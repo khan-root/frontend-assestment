@@ -19,6 +19,12 @@ const CartApi = {
             url: `cart/remove-from-cart?id=${id}`,
             method: 'DELETE'
         })
+    },
+    clearCart: function(){
+        return api.request({
+            url: 'cart/clear-cart',
+            method: 'DELETE'
+        })
     }
 }
 

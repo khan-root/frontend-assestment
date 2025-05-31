@@ -18,6 +18,11 @@ const CartViewModel = (set, get)=> ({
         set({
             cart: get().cart.filter((item)=>item.id !== id)
         })
+    },
+    clearCart: ()=>{
+        set({
+            cart: []
+        })
     }
 })
 
