@@ -4,7 +4,7 @@ import Navabr from './components/Navabr'
 
 const App = () => {
   return (
-    <div>
+    <div className='h-screen w-screen'>
       <Navabr />
       <Routers />
     </div>
