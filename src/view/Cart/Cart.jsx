@@ -19,28 +19,37 @@ const Cart = () => {
 
 
     const removeFromCart = async(id)=>{
-        console.log(id)
-        try {
-            const response = await CartApi.removeFromCart(id)
-            if(response.status === 200){
-                removeCartItem(id)
-                showToast('Product Removed from Cart', 'success')
-            }
-        } catch (error) {
-            console.log(error)
+        const cartData = localStorage.getItem('cart')
+        if(cartData){
+            const data = JSON.parse(cartData)
+            const newData = data.filter((item)=>item.id !== id)
+            localStorage.setItem('cart', JSON.stringify(newData))
         }
+        removeCartItem(id)
+        // try {
+        //     const response = await CartApi.removeFromCart(id)
+        //     if(response.status === 200){
+        //         removeCartItem(id)
+        //         showToast('Product Removed from Cart', 'success')
+        //     }
+        // } catch (error) {
+        //     console.log(error)
+        // }
     }
 
-    const removeAllCartItem = async()=>{
-        try{
-            const response = await CartApi.clearCart()
-            if(response.status === 200){
-                clearCart()
-                showToast('Cart Cleared', 'success')
-            }
-        } catch (error) {
-            console.log(error)
-        }
+    const removeAllCartItem =()=>{
+        localStorage.removeItem('cart')
+        clearCart()
+        showToast('Cart Cleared', 'success')
+        // try{
+        //     const response = await CartApi.clearCart()
+        //     if(response.status === 200){
+        //         clearCart()
+        //         showToast('Cart Cleared', 'success')
+        //     }
+        // } catch (error) {
+        //     console.log(error)
+        // }
     }
 
   return (
