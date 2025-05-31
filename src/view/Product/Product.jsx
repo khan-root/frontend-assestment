@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import Card from '../../components/Card'
 import useStore from '../../Store/Store'
 import CartApi from '../../model/Cart/Cart'
+import { showToast } from '../../components/Toaster'
 
 const Product = () => {
     const getProducts = useStore((state)=>state.getProducts)
@@ -11,9 +12,14 @@ const Product = () => {
     },[])
 
     const addToCart = async(product)=>{
+        const productId = {
+            id: product.id.toString()
+        }
         try {
-            const response = await CartApi.addToCart(product.id)
-            // console.log(response)
+           const response = await CartApi.addToCart(productId)
+           if(response.status === 200){
+            showToast('Product Added to Cart', 'success')
+           }
         } catch (error) {
             console.log(error)
         }

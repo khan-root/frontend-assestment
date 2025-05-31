@@ -13,6 +13,11 @@ const CartViewModel = (set, get)=> ({
         } catch (error) {
             console.log(error)
         }
+    },
+    removeCartItem: (id)=>{
+        set({
+            cart: get().cart.filter((item)=>item.id !== id)
+        })
     }
 })
 

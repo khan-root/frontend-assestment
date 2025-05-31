@@ -1,17 +1,34 @@
 import React, { useEffect } from 'react'
 import { BiTrash } from 'react-icons/bi'
 import useStore from '../../Store/Store'
+import CartApi from '../../model/Cart/Cart'
+import { showToast } from '../../components/Toaster'
 
 const Cart = () => {
 
 
     const getCart = useStore((state)=>state.getCart)
     const cart = useStore((state)=>state.cart)
+    const  removeCartItem = useStore((state)=>state.removeCartItem)
     useEffect(()=>{
         getCart()
     },[])
 
     const total = cart?.reduce((acc, curr) => acc + parseFloat(curr.price), 0);
+
+
+    const removeFromCart = async(id)=>{
+        console.log(id)
+        try {
+            const response = await CartApi.removeFromCart(id)
+            if(response.status === 200){
+                removeCartItem(id)
+                showToast('Product Removed from Cart', 'success')
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
 
   return (
@@ -39,7 +56,9 @@ const Cart = () => {
                 <td className="p-3 border-b font-semibold">{data.name}</td>
                 <td className="p-3 border-b text-gray-600">{data.price}</td>
                 <td className="p-3 border-b">
-                    <span className='text-red-500 border border-red-500 rounded-md  w-[30px] h-[30px] text-[14px] flex items-center justify-center cursor-pointer'>
+                    <span className='text-red-500 border border-red-500 rounded-md  w-[30px] h-[30px] text-[14px] flex items-center justify-center cursor-pointer'
+                    onClick={()=>removeFromCart(data.id)}
+                    >
                         <BiTrash />
                     </span>
                 </td>

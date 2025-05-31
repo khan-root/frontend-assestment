@@ -7,11 +7,17 @@ const CartApi = {
             method: 'GET'
         })
     },
-    addToCart: function(product){
+    addToCart: function(id){
         return api.request({
-            url: '/cart',
+            url: 'cart/add-to-cart',
             method: 'POST',
-            data: product
+            data: id
+        })
+    },
+    removeFromCart: function(id){
+        return api.request({
+            url: `cart/remove-from-cart?id=${id}`,
+            method: 'DELETE'
         })
     }
 }
