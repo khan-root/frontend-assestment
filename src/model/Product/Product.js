@@ -3,14 +3,14 @@ import api from '../base'
 const ProductApi = {
     addProuct: function(product){
         return api.request({
-            url: '/products',
+            url: '/items',
             method: 'POST',
             data: product
         })
     },
     getProducts: function(){
         return api.request({
-            url: '/products',
+            url: '/items',
             method: 'GET'
         })
     },
@@ -20,7 +20,7 @@ const ProductApi = {
             method: 'DELETE'
         })
     },
-    
+
 }
 
 

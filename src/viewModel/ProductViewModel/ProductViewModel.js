@@ -6,8 +6,10 @@ const ProductViewModel =(set, get)=> ({
     getProducts: async()=>{
         try {
             const response = await ProductApi.getProducts()
-            const data = response.data
-            set({products: data})
+            const data = response.data 
+            if(response.status === 200){
+                set({products: data})
+            }
         } catch (error) {
             console.log(error)
         }
