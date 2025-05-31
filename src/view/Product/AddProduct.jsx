@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Input from '../../components/Input'
 import { validateInput } from '../../validation/validation'
 import { showToast } from '../../components/Toaster'
+import ProductApi from '../../model/Product/Product'
 
 const AddProduct = () => {
 
@@ -55,7 +56,9 @@ const AddProduct = () => {
         }))
 
         try {
-            console.log(formValue)
+            const resposne = await ProductApi.addProuct(formValue)
+            const data = resposne.data 
+            console.log('data', data)
         } catch (error) {
             console.log(error)
         }finally{
