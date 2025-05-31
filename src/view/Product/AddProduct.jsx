@@ -42,15 +42,30 @@ const AddProduct = () => {
         return { isValid: true, message: '' };
     }
 
-    const handleSubmit = (e)=>{
+    const handleSubmit = async(e)=>{
         e.preventDefault()
         const validation = validateForm()
         if(!validation.isValid){
             showToast(validation.message, 'error')
             return
         }
+        setFormValue((prevState)=>({
+            ...prevState, 
+            loading:true
+        }))
 
-        console.log(formValue)
+        try {
+            console.log(formValue)
+        } catch (error) {
+            console.log(error)
+        }finally{
+            setFormValue((prevState)=>({
+                ...prevState,
+                loading: false
+            }))
+                
+        }
+
     }
 
   return (
@@ -69,8 +84,7 @@ const AddProduct = () => {
                 <Input placeholder='Product Image Url' onChange={handleChange} name='image' value={formValue.image} />
             </div>
             <div className='flex items-center justify-center'>
-
-                <button className='bg-blue-500 text-white px-4 py-2 rounded-md'>Add Product</button>
+                <button className='bg-blue-500 text-white px-4 py-2 rounded-md' disabled={formValue.loading}>Add Product</button>
             </div>
         </form>
     </div>
