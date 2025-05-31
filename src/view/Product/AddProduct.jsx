@@ -3,8 +3,10 @@ import Input from '../../components/Input'
 import { validateInput } from '../../validation/validation'
 import { showToast } from '../../components/Toaster'
 import ProductApi from '../../model/Product/Product'
+import useStore from '../../Store/Store'
 
 const AddProduct = () => {
+    const addProduct = useStore((state)=>state.addProduct)
 
     const [formValue, setFormValue] = useState({
         name: '',
@@ -50,21 +52,36 @@ const AddProduct = () => {
             showToast(validation.message, 'error')
             return
         }
+
         setFormValue((prevState)=>({
             ...prevState, 
             loading:true
         }))
 
+        const product = {
+            name: formValue.name,
+            price: formValue.price,
+            img: "./img/cookies.jpg",
+        }
+
+
         try {
-            const resposne = await ProductApi.addProuct(formValue)
+            const resposne = await ProductApi.addProuct(product)
+            console.log(resposne)
             const data = resposne.data 
-            console.log('data', data)
+            if(resposne.status === 200){
+                addProduct(data)
+                showToast('Product Added Successfully', 'success')
+            }
         } catch (error) {
             console.log(error)
         }finally{
             setFormValue((prevState)=>({
                 ...prevState,
-                loading: false
+                loading: false,
+                name: '',
+                price: '',
+                image: '',
             }))
                 
         }
