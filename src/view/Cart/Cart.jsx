@@ -1,13 +1,19 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { BiTrash } from 'react-icons/bi'
+import useStore from '../../Store/Store'
 
 const Cart = () => {
-    const data = {
-        image: "https://images.pexels.com/photos/20519105/pexels-photo-20519105/free-photo-of-checkered-paddles-and-balls.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-        name: "Product 1",
-        description: "Description 1",
-        price: 100,
-    }
+
+
+    const getCart = useStore((state)=>state.getCart)
+    const cart = useStore((state)=>state.cart)
+    useEffect(()=>{
+        getCart()
+    },[])
+
+    const total = cart?.reduce((acc, curr) => acc + parseFloat(curr.price), 0);
+
+
   return (
     <div className='w-[60%] mx-auto space-y-4'>
         
@@ -21,7 +27,7 @@ const Cart = () => {
             </tr>
         </thead>
         <tbody>
-            {[1, 2, 3].map((_, index) => (
+            {cart?.map((data, index) => (
             <tr key={index} className="hover:bg-gray-50">
                 <td className="p-3 border-b">
                 <img
@@ -43,7 +49,7 @@ const Cart = () => {
         </table>
         <div className='flex items-center justify-between'>
             <div className='flex items-center space-x-4'>
-                <span className='text-gray-500'>Total: <span className='font-bold'>$100</span></span>
+                <span className='text-gray-500'>Total: <span className='font-bold'>{total}</span></span>
                 <div className='flex items-center space-x-4'>
                     <button className='bg-blue-500 text-white px-4 py-2 rounded-md'>Checkout</button>
                     <button className='bg-red-500 text-white px-4 py-2 rounded-md'>Clear Cart</button>
