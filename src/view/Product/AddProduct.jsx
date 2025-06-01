@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Input from '../../components/Input'
-import { validateInput } from '../../validation/validation'
+import { validateInput, validateNumberInput } from '../../validation/validation'
 import { showToast } from '../../components/Toaster'
 import ProductApi from '../../model/Product/Product'
 import useStore from '../../Store/Store'
@@ -28,7 +28,7 @@ const AddProduct = () => {
     const validateForm = ()=>{
         const {name, price, image} = formValue
         const nameValidation = validateInput('Product Name', name);
-        const priceValidation = validateInput('Product Price', price);
+        const priceValidation = validateNumberInput('Product Price', price);
         const imageValidation = validateInput('Product Image', image);
         if (!nameValidation.isValid) {
            return { isValid: false, message: nameValidation.message };
