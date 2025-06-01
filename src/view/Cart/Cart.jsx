@@ -61,6 +61,7 @@ const Cart = () => {
             <th className="p-3 border-b text-left">Image</th>
             <th className="p-3 border-b text-left">Name</th>
             <th className="p-3 border-b text-left">Price</th>
+            <th className="p-3 border-b text-left">Quantity</th>
             <th className="p-3 border-b text-left">Action</th>
             </tr>
         </thead>
@@ -69,13 +70,14 @@ const Cart = () => {
             <tr key={index} className="hover:bg-gray-50">
                 <td className="p-3 border-b">
                 <img
-                    src={data.image}
+                    src={`http://localhost:3000/${data.img}`}
                     alt={data.name}
                     className="w-32 h-20 object-cover rounded"
                 />
                 </td>
                 <td className="p-3 border-b font-semibold">{data.name}</td>
                 <td className="p-3 border-b text-gray-600">{data.price}</td>
+                <td className="p-3 border-b text-gray-600">{data?.quantity || 1}</td>
                 <td className="p-3 border-b">
                     <span className='text-red-500 border border-red-500 rounded-md  w-[30px] h-[30px] text-[14px] flex items-center justify-center cursor-pointer'
                     onClick={()=>removeFromCart(data.id)}

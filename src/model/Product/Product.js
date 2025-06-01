@@ -1,11 +1,14 @@
 import api from '../base'
 
 const ProductApi = {
-    addProuct: function(product){
+    addProuct: function(product){   
         return api.request({
             url: '/items',
             method: 'POST',
-            data: product
+            data: product,
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
         })
     },
     getProducts: function(){

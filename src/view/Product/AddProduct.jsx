@@ -11,16 +11,16 @@ const AddProduct = () => {
     const [formValue, setFormValue] = useState({
         name: '',
         price: '',
-        image: '',
+        image: null,
         loading: false,
     })
 
 
     const handleChange = (e)=>{
-        const {name, value} = e.target
+        const {name, value, type, files} = e.target
         setFormValue((prevState)=>({
             ...prevState,
-            [name]: value
+            [name]: type === 'file' ? files[0] : value
         }))
     }
 
@@ -47,6 +47,7 @@ const AddProduct = () => {
 
     const handleSubmit = async(e)=>{
         e.preventDefault()
+        const {name, price, image} = formValue
         const validation = validateForm()
         if(!validation.isValid){
             showToast(validation.message, 'error')
@@ -58,14 +59,18 @@ const AddProduct = () => {
             loading:true
         }))
 
-        const product = {
-            name: formValue.name,
-            price: formValue.price,
-            img: "./img/cookies.jpg",
-        }
+        // const product = {
+        //     name: formValue.name,
+        //     price: formValue.price,
+        //     img: formValue.image,
+        // }
 
 
         try {
+            const product = new FormData()
+            product.append('name', name)
+            product.append('price', price)
+            product.append('img', image)
             const resposne = await ProductApi.addProuct(product)
             console.log(resposne)
             const data = resposne.data 
@@ -101,7 +106,10 @@ const AddProduct = () => {
             </div>
             <div className='space-y-2'>
                 <label>Product Image</label>
-                <Input placeholder='Product Image Url' onChange={handleChange} name='image' value={formValue.image} />
+                <Input placeholder='Product Image Url' onChange={handleChange} name='image'
+                type='file'
+                accept='image/*'
+                />
             </div>
             <div className='flex items-center justify-center'>
                 <button className='bg-blue-500 text-white px-4 py-2 rounded-md' disabled={formValue.loading}>Add Product</button>
