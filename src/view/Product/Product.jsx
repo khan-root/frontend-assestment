@@ -8,32 +8,39 @@ const Product = () => {
     const getProducts = useStore((state)=>state.getProducts)
     const products = useStore((state)=>state.products)
     const addToCart = useStore((state)=>state.addToCart)
+    const updateCartItemQuantity = useStore((state)=>state.updateCartItemQuantity)
+    
     useEffect(()=>{
         getProducts()
     },[])
 
     const handleAddToCart = async(product)=>{
-        // const productId = {
-        //     id: product.id.toString()
-        // }
-        // try {
-        //    const response = await CartApi.addToCart(productId)
-        //    if(response.status === 200){
-        //     showToast('Product Added to Cart', 'success')
-        //    }
-        // } catch (error) {
-        //     console.log(error)
-        // }
-        const cartData = localStorage.getItem('cart')
-        if(cartData){
-            const data = JSON.parse(cartData)
-            const newData = [...data, product]
-            localStorage.setItem('cart', JSON.stringify(newData))
-        }else{
-            localStorage.setItem('cart', JSON.stringify([product]))
+         const cartData = localStorage.getItem('cart');
+    let updatedCart = [];
+
+    if (cartData) {
+        const data = JSON.parse(cartData);
+        const existingProductIndex = data.findIndex(item => item.id === product.id);
+
+        if (existingProductIndex !== -1) {
+            data[existingProductIndex].quantity += 1;
+            updatedCart = data;
+        } else {
+            const newProduct = { ...product, quantity: 1 };
+            data.push(newProduct);
+            updatedCart = data;
         }
-        showToast('Product Added to Cart', 'success')
-        addToCart(product)
+    } else {
+        const newProduct = { ...product, quantity: 1 };
+        updatedCart = [newProduct];
+    }
+
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
+    
+    updateCartItemQuantity();
+    
+    showToast('Product Added to Cart', 'success');
+
     }
 
   return (

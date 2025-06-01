@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { navbarUtils } from '../utils/navbarUtils'
 import { Link, useLocation } from 'react-router-dom'
 import useStore from '../Store/Store'
@@ -6,7 +6,19 @@ import useStore from '../Store/Store'
 const Navabr = () => {
     const location = useLocation()
     const isActive = (path) => location.pathname === path
+    // const [cartQuantity, setCartQuantity] = useState(0)
     const cartQuantity = useStore((state)=>state.cartQuantity)
+
+
+
+    // useEffect(()=>{
+    //     console.log('cartQuantity', cartQuantity)
+    //     const cartData = localStorage.getItem('cart')
+    //     if(cartData){
+    //         const data = JSON.parse(cartData)
+    //         setCartQuantity(data?.length || 0)
+    //     }
+    // },[cartQuantity])
 
   return (
     <div className='flex justify-center items-center h-16 bg-gray-200'>

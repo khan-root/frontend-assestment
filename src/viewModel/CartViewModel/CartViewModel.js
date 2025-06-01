@@ -1,45 +1,75 @@
+// ===== CART VIEW MODEL =====
 import CartApi from "../../model/Cart/Cart"
 
-const CartViewModel = (set, get)=> ({
+const CartViewModel = (set, get) => ({
     cart: [],
-    cartQuantity: 0,
-    getCart: async()=>{
+    cartQuantity: 0, // This will represent unique products count
+    
+    getCart: async() => {
         try {
             const cartData = localStorage.getItem('cart')
-            if(cartData){
-                set({cart: JSON.parse(cartData)})
-                set({cartQuantity: JSON.parse(cartData).length})
+            if(cartData) {
+                const parsedCart = JSON.parse(cartData);
+                set({
+                    cart: parsedCart,
+                    cartQuantity: parsedCart.length // Count unique products, not total quantity
+                });
             }
-
-            // const response = await CartApi.getCart()
-            // const data = response.data 
-            // if(response.status === 200){
-            //     set({cart: data.items})
-            // }
-         
         } catch (error) {
             console.log(error)
         }
     },
-    addToCart: (product)=>{
+    
+    addToCart: (product) => {
+        const currentCart = get().cart;
+        const existingProductIndex = currentCart.findIndex(item => item.id === product.id);
+        
+        let updatedCart;
+        if (existingProductIndex !== -1) {
+            updatedCart = currentCart.map((item, index) => 
+                index === existingProductIndex 
+                    ? { ...item, quantity: item.quantity + 1 }
+                    : item
+            );
+        } else {
+            updatedCart = [...currentCart, { ...product, quantity: 1 }];
+        }
+        
         set({
-            cart: [...get().cart, product],
-            cartQuantity: get().cartQuantity + 1
-        })
+            cart: updatedCart,
+            cartQuantity: updatedCart.length 
+        });
+        
+        localStorage.setItem('cart', JSON.stringify(updatedCart));
     },
-    removeCartItem: (id)=>{
+
+    updateCartItemQuantity: () => {
+        const cartData = localStorage.getItem('cart');
+        if (cartData) {
+            const parsedCart = JSON.parse(cartData);
+            set({
+                cart: parsedCart,
+                cartQuantity: parsedCart.length
+            });
+        }
+    },
+
+    removeCartItem: (id) => {
+        const updatedCart = get().cart.filter((item) => item.id !== id);
         set({
-            cart: get().cart.filter((item)=>item.id !== id),
-            cartQuantity: get().cartQuantity - 1
-        })
+            cart: updatedCart,
+            cartQuantity: updatedCart.length
+        });
+        localStorage.setItem('cart', JSON.stringify(updatedCart));
     },
-    clearCart: ()=>{
+    
+    clearCart: () => {
         set({
             cart: [],
             cartQuantity: 0
-        })
+        });
+        localStorage.removeItem('cart');
     }
 })
 
-
-export default CartViewModel
+export default CartViewModel;
