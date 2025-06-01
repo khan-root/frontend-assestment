@@ -6,7 +6,6 @@ export const validateInput = (fieldName, input)=>{
   return { isValid: true, message: '' };
 }
 export const validateNumberInput = (fieldName, input)=>{
-  console.log('******')
     if (!input) {
         return { isValid: false, message: `${fieldName} cannot be empty.` };
     }

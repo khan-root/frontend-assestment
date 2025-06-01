@@ -86,7 +86,7 @@ const AddProduct = () => {
                 loading: false,
                 name: '',
                 price: '',
-                image: '',
+                image: null,
             }))
                 
         }

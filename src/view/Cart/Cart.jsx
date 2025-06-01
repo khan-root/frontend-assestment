@@ -97,7 +97,7 @@ const Cart = () => {
             <div className='flex items-center space-x-4'>
                 <span className='text-gray-500'>Total: <span className='font-bold'>{total}</span></span>
                 <div className='flex items-center space-x-4'>
-                    <button className='bg-blue-500 text-white px-4 py-2 rounded-md'>Checkout</button>
+                    {/* <button className='bg-blue-500 text-white px-4 py-2 rounded-md'>Checkout</button> */}
                     <button className='bg-red-500 text-white px-4 py-2 rounded-md'
                     onClick={()=>removeAllCartItem()}
                     >Clear Cart</button>
