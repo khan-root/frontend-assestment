@@ -15,7 +15,11 @@ const Cart = () => {
         getCart()
     },[])
 
-    const total = cart?.reduce((acc, curr) => acc + parseFloat(curr.price), 0);
+    const total = cart?.reduce((acc, curr) => {
+        const price = parseFloat(curr.price) || 0;
+        const quantity = parseInt(curr.quantity) || 0;
+        return acc + (price * quantity);
+    }, 0);
 
 
     const removeFromCart = async(id)=>{
