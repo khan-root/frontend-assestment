@@ -1,4 +1,3 @@
-// ===== CART VIEW MODEL =====
 import CartApi from "../../model/Cart/Cart"
 
 const CartViewModel = (set, get) => ({
@@ -12,12 +11,17 @@ const CartViewModel = (set, get) => ({
                 const parsedCart = JSON.parse(cartData);
                 set({
                     cart: parsedCart,
-                    cartQuantity: parsedCart.length // Count unique products, not total quantity
+                     // Count unique products, not total quantity
                 });
             }
         } catch (error) {
             console.log(error)
         }
+    },
+    getCartQunatity:()=>{
+        const cartData = localStorage.getItem('cart')
+        const parsedCart = JSON.parse(cartData);
+        set({cartQuantity: parsedCart.length})
     },
     
     addToCart: (product) => {
