@@ -70,7 +70,7 @@ const Cart = () => {
             </tr>
         </thead>
         <tbody>
-            {cart?.map((data, index) => (
+            {cart?.length > 0 ? cart?.map((data, index) => (
             <tr key={index} className="hover:bg-gray-50">
                 <td className="p-3 border-b">
                 <img
@@ -90,7 +90,11 @@ const Cart = () => {
                     </span>
                 </td>
             </tr>
-            ))}
+            )) : <tr>
+                <td colSpan={5} className='text-center'>
+                    <h1 className='text-2xl font-bold'>No Products Found</h1>
+                </td>
+            </tr>}
         </tbody>
         </table>
         <div className='flex items-center justify-between'>

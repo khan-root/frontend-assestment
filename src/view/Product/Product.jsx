@@ -7,12 +7,13 @@ import { showToast } from '../../components/Toaster'
 const Product = () => {
     const getProducts = useStore((state)=>state.getProducts)
     const products = useStore((state)=>state.products)
-    const addToCart = useStore((state)=>state.addToCart)
+    // const addToCart = useStore((state)=>state.addToCart)
     const updateCartItemQuantity = useStore((state)=>state.updateCartItemQuantity)
     
     useEffect(()=>{
         getProducts()
     },[])
+
 
     const handleAddToCart = async(product)=>{
          const cartData = localStorage.getItem('cart');
@@ -45,13 +46,18 @@ const Product = () => {
 
   return (
     <div className='flex flex-wrap gap-4 p-4'>
-        {products?.map((ele)=>(
+        {products?.length > 0 ? products?.map((ele)=>(
             <Card 
                 key={ele.id}
                 data={ele}
                 addToCart={handleAddToCart}
             />
-        ))}
+            )) 
+        : 
+            <div className='flex justify-center items-center w-full'>
+                <h1 className='text-2xl font-bold'>No Products Found</h1>
+            </div>
+        }
     </div>
   )
 }
